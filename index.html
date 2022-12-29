@@ -250,7 +250,8 @@
                   explanation_string_two += f"{temp_number} + "
                explanation_string_one = explanation_string_one[:-3]
                explanation_string_two = explanation_string_two[:-3]
-               explanation = f"Letter legend: A = 10, B = 11, C = 12, D = 13, E = 14, F = 15" '\n' + f"Hex number: {hex_digit} = {explanation_string_one} = {explanation_string_two}"
+               explanation = f"Letter legend: A = 10, B = 11, C = 12, D = 13, E = 14, F = 15" '\n' +\
+                              f"Hex number: {hex_digit} = {explanation_string_one} = {explanation_string_two}"
                pyscript.write("explanation", explanation)
                pyscript.write("result", f"The decimal representation of {hex_digit} is {decimal_result}")
             else:
