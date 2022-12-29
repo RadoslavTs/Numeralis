@@ -68,24 +68,29 @@
       <py-script>
 
 
-
          def binary_decimal(initial_value):
-            decimal_result = int()
-            explanation_string_one = ""
-            explanation_string_two = ""
-            final_explanation = explanation_string_one + explanation_string_two
-            for sequence in range(1, len(initial_value)+1):
-                temp_digit = int(initial_value[sequence-1])
-                temp_power = len(initial_value) - sequence
-                temp_multiplier = 2 ** (len(initial_value) - sequence)
-                temp_number = temp_digit * temp_multiplier
-                decimal_result += temp_number
-                explanation_string_one += f"({temp_digit} x 2^{temp_power}) + "
-                explanation_string_two += f"{temp_number} + "
-            explanation_string_one = explanation_string_one[:-3]
-            explanation_string_two = explanation_string_two[:-3]
-            pyscript.write("explanation", f"Binary number: {initial_value} = {explanation_string_one} = {explanation_string_two}")
-            pyscript.write("result", f"The decimal representation of {initial_value} is {decimal_result}")
+            binary_set = set(initial_value)
+            check_set = {'0', '1'}
+            if check_set ==  binary_set or binary_set == {'0'} or binary_set == {'1'}:
+               decimal_result = int()
+               explanation_string_one = ""
+               explanation_string_two = ""
+               final_explanation = explanation_string_one + explanation_string_two
+               for sequence in range(1, len(initial_value)+1):
+                   temp_digit = int(initial_value[sequence-1])
+                   temp_power = len(initial_value) - sequence
+                   temp_multiplier = 2 ** (len(initial_value) - sequence)
+                   temp_number = temp_digit * temp_multiplier
+                   decimal_result += temp_number
+                   explanation_string_one += f"({temp_digit} x 2^{temp_power}) + "
+                   explanation_string_two += f"{temp_number} + "
+               explanation_string_one = explanation_string_one[:-3]
+               explanation_string_two = explanation_string_two[:-3]
+               pyscript.write("explanation", f"Binary number: {initial_value} = {explanation_string_one} = {explanation_string_two}")
+               pyscript.write("result", f"The decimal representation of {initial_value} is {decimal_result}")
+            else:
+               pyscript.write("explanation", "input number is not binary!")
+               pyscript.write("result", "")
 
 
          def binary_hexadecimal(initial_value):
@@ -96,29 +101,94 @@
             counter = 1
             explanation_string_one = ""
             explanation_string_two = ""
-            while starting_number:
-               current_number = starting_number[-4:]
-               if len(current_number) == 4:
-                  resulting_number += binary_dict[current_number]
+            binary_set = set(initial_value)
+            check_set = {'0', '1'}
+            if check_set ==  binary_set or binary_set == {'0'} or binary_set == {'1'}:
+               while starting_number:
+                  current_number = starting_number[-4:]
+                  if len(current_number) == 4:
+                     resulting_number += binary_dict[current_number]
+                  else:
+                     if len(current_number) == 3:
+                        current_number = "0" + current_number
+                     elif len(current_number) == 2:
+                        current_number = "00" + current_number
+                     elif len(current_number) == 1:
+                        current_number = "000" + current_number
+                     resulting_number += binary_dict[current_number]
+                  if explanation_string_one:
+                     explanation_string_one = current_number + " " + explanation_string_one
+                     explanation_string_two = binary_dict[current_number] + "    " + explanation_string_two
+                  else:
+                     explanation_string_one = current_number
+                     explanation_string_two = binary_dict[current_number]
+                  counter += 1
+                  starting_number = starting_number[:-4]
+               resulting_number = resulting_number[::-1]
+               pyscript.write("explanation", f"Binary digits:               {explanation_string_one}\n Hexadecimal digits:    {explanation_string_two}")
+               pyscript.write("result", f"The hexadecimal representation of {initial_value} is {resulting_number}")
+            else:
+               pyscript.write("explanation", "input number is not binary!")
+               pyscript.write("result", "")
+
+
+         def decimal_binary(initial_value):
+               check_flag = initial_value.isdigit()
+               if check_flag:
+                  initial_decimal_number = int(initial_value)
+                  resulting_number = ""
+                  explanation = "Divide by the base 2 to get the digits from the remainders:\n"
+                  bit_position = 0
+                  while initial_decimal_number > 0:
+                     decimal_to_work_with = initial_decimal_number
+                     remainder = initial_decimal_number % 2
+                     initial_decimal_number = initial_decimal_number // 2
+                     resulting_number += str(remainder)
+                     explanation += f"{decimal_to_work_with}/2 with a reminder of {remainder} and bit position {bit_position}\n"
+                     bit_position += 1
+                  result = resulting_number
+                  resulting_number = resulting_number[::-1]
+                  pyscript.write("explanation", explanation)
+                  pyscript.write("result", f"The binary representation of {initial_value} is {resulting_number}")
                else:
-                  if len(current_number) == 3:
-                     current_number = "0" + current_number
-                  elif len(current_number) == 2:
-                     current_number = "00" + current_number
-                  elif len(current_number) == 1:
-                     current_number = "000" + current_number
-                  resulting_number += binary_dict[current_number]
-               if explanation_string_one:
-                  explanation_string_one = current_number + " " + explanation_string_one
-                  explanation_string_two = binary_dict[current_number] + "    " + explanation_string_two
-               else:
-                  explanation_string_one = current_number
-                  explanation_string_two = binary_dict[current_number]
-               counter += 1
-               starting_number = starting_number[:-4]
-            resulting_number = resulting_number[::-1]
-            pyscript.write("explanation", f"Binary digits:               {explanation_string_one}\n Hexadecimal digits:    {explanation_string_two}")
-            pyscript.write("result", f"The hexadecimal representation of {initial_value} is {resulting_number}")
+                  pyscript.write("explanation", "input number is not decimal!")
+                  pyscript.write("result", "")
+
+
+         def decimal_hexadecimal(initial_value):
+            check_flag = initial_value.isdigit()
+            if check_flag:
+               initial_decimal_number = int(initial_value)
+               resulting_number = ""
+               explanation = "Divide by the base 16 to get the digits from the remainders:\n"
+               bit_position = 0
+               while initial_decimal_number > 0:
+                   decimal_to_work_with = initial_decimal_number
+                   remainder = initial_decimal_number % 16
+                   if remainder == 10:
+                       remainder = "A"
+                   elif remainder == 11:
+                       remainder = "B"
+                   elif remainder == 12:
+                       remainder = "C"
+                   elif remainder == 13:
+                       remainder = "D"
+                   elif remainder == 14:
+                       remainder = "E"
+                   elif remainder == 15:
+                       remainder = "F"
+                   initial_decimal_number = initial_decimal_number // 16
+                   resulting_number += str(remainder)
+                   explanation += f"{decimal_to_work_with}/16 with a reminder of {remainder} and digit position {bit_position}\n"
+                   bit_position += 1
+               result = resulting_number
+               resulting_number = resulting_number[::-1]
+               explanation = explanation + f"Resulting number {result} should be counted backwards and we get the final result: {resulting_number}"
+               pyscript.write("explanation", explanation)
+               pyscript.write("result", f"The binary representation of {initial_value} is {resulting_number}")
+            else:
+               pyscript.write("explanation", "input number is not decimal!")
+               pyscript.write("result", "")
 
 
          def final_result(initial_value):
@@ -130,6 +200,11 @@
                binary_decimal(initial_value)
             elif conversion_type == "binary_hexadecimal":
                binary_hexadecimal(initial_value)
+            elif conversion_type == "decimal_binary":
+               decimal_binary(initial_value)
+            elif conversion_type == "decimal_hexadecimal":
+               decimal_hexadecimal(initial_value)
+
 
 
       </py-script>
