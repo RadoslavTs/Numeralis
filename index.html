@@ -73,10 +73,11 @@
          def binary_decimal(initial_value):
             binary_set = set(initial_value)
             check_set = {'0', '1'}
+            check_set_float = {'0', '1', '.'}
+            explanation_string_one = ""
+            explanation_string_two = ""
             if check_set ==  binary_set or binary_set == {'0'} or binary_set == {'1'}:
                decimal_result = int()
-               explanation_string_one = ""
-               explanation_string_two = ""
                final_explanation = explanation_string_one + explanation_string_two
                for sequence in range(1, len(initial_value)+1):
                    temp_digit = int(initial_value[sequence-1])
@@ -89,6 +90,36 @@
                explanation_string_one = explanation_string_one[:-3]
                explanation_string_two = explanation_string_two[:-3]
                pyscript.write("explanation", f"Binary number: {initial_value} = {explanation_string_one} = {explanation_string_two}")
+               pyscript.write("result", f"The decimal representation of {initial_value} is {decimal_result}")
+
+            elif check_set_float == binary_set:
+               explanation_string_three = ""
+               explanation_string_four = ""
+               decimal_result = float()
+               split_digit = initial_value.split(".")
+               first_half = split_digit[0]
+               second_half = split_digit[1]
+               temp_number = float()
+               for sequence in range(1, len(first_half) + 1):
+                  temp_digit = int(first_half[sequence - 1])
+                  temp_power = len(first_half) - sequence
+                  temp_multiplier = 2 ** (len(first_half) - sequence)
+                  temp_number = temp_digit * temp_multiplier
+                  decimal_result += temp_number
+                  explanation_string_one += f"({temp_digit} x 2^{temp_power}) + "
+                  explanation_string_two += f"{temp_number} + "
+               for sequence_two in range(1, len(second_half) + 1):
+                  temp_digit = int(second_half[sequence_two-1])
+                  temp_power = -sequence_two
+                  temp_multiplier = 2 ** (-sequence_two)
+                  temp_digit_number = temp_digit * temp_multiplier
+                  decimal_result += temp_digit_number
+                  explanation_string_three += f"({temp_digit} x 2^{temp_power}) + "
+                  explanation_string_four += f"{temp_digit_number} + "
+               explanation_string_one = explanation_string_one[:-3]
+               explanation_string_two = explanation_string_two[:-3]
+               final_explanation = explanation_string_one + " = " + explanation_string_two
+               pyscript.write("explanation", f"Binary number: {initial_value} = {explanation_string_one} + {explanation_string_three} = {explanation_string_two} + {explanation_string_four}")
                pyscript.write("result", f"The decimal representation of {initial_value} is {decimal_result}")
             else:
                pyscript.write("explanation", "input number is not binary!")
