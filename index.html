@@ -67,15 +67,15 @@
          <p>
          </p>
       </div>
+
       <py-script>
-
-
          def binary_decimal(initial_value):
             binary_set = set(initial_value)
             check_set = {'0', '1'}
             check_set_float = {'0', '1', '.'}
             explanation_string_one = ""
             explanation_string_two = ""
+
             if check_set ==  binary_set or binary_set == {'0'} or binary_set == {'1'}:
                decimal_result = int()
                final_explanation = explanation_string_one + explanation_string_two
@@ -121,11 +121,14 @@
                final_explanation = explanation_string_one + " = " + explanation_string_two
                pyscript.write("explanation", f"Binary number: {initial_value} = {explanation_string_one} + {explanation_string_three} = {explanation_string_two} + {explanation_string_four}")
                pyscript.write("result", f"The decimal representation of {initial_value} is {decimal_result}")
+
             else:
                pyscript.write("explanation", "input number is not binary!")
                pyscript.write("result", "")
 
 
+      </py-script><!--      Function - Binary to Decimal-->
+      <py-script>
          def binary_hexadecimal(initial_value):
             starting_number = initial_value
             resulting_number = ""
@@ -165,6 +168,8 @@
                pyscript.write("result", "")
 
 
+      </py-script><!--      Function - Binary to Hexadecimal-->
+      <py-script>
          def decimal_binary(initial_value):
                check_flag = initial_value.isdigit()
                if check_flag:
@@ -188,6 +193,8 @@
                   pyscript.write("result", "")
 
 
+      </py-script><!--      Function - Decimal to Binary-->
+      <py-script>
          def decimal_hexadecimal(initial_value):
             check_flag = initial_value.isdigit()
             if check_flag:
@@ -224,6 +231,8 @@
                pyscript.write("result", "")
 
 
+      </py-script><!--      Function - Decimal to Hexadecimal-->
+      <py-script>
          def hexadecimal_binary(initial_value):
             check_list = ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F')
             hex_value_upper = initial_value.upper()
@@ -247,6 +256,8 @@
                pyscript.write("result", "")
 
 
+      </py-script><!--      Function - Hexadecimal to Binary-->
+      <py-script>
          def hexadecimal_decimal(initial_value):
             check_list = ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', '.')
             hex_digit = initial_value.upper()
@@ -282,7 +293,7 @@
                   temp_power = len(hex_digit) - sequence
                   temp_multiplier = 16 ** (len(hex_digit) - sequence)
                   explanation_string_one += f"({temp_digit} x 16^{temp_power}) + "
-                  if temp_digit in letter_dict.keys:
+                  if temp_digit in letter_dict:
                      temp_digit = letter_dict[temp_digit]
                   temp_number = temp_digit * temp_multiplier
                   decimal_result += temp_number
@@ -339,29 +350,34 @@
                pyscript.write("result", "")
 
 
+      </py-script><!--      Function - Hexadecimal to Decimal-->
+      <py-script>
          def final_result(initial_value):
             pyscript.write("explanation", "")
             pyscript.write("result", "")
             initial_value = str(Element("number_to_convert").element.value)
             conversion_type = Element("conversionType").element.value
-            if initial_value == "4.20":
-               pyscript.write("explanation", "Good one!")
+            if initial_value:
+               if initial_value == "4.20":
+                  pyscript.write("explanation", "Good one!")
+               else:
+                  if conversion_type == "binary_decimal":
+                     binary_decimal(initial_value)
+                  elif conversion_type == "binary_hexadecimal":
+                     binary_hexadecimal(initial_value)
+                  elif conversion_type == "decimal_binary":
+                     decimal_binary(initial_value)
+                  elif conversion_type == "decimal_hexadecimal":
+                     decimal_hexadecimal(initial_value)
+                  elif conversion_type == "hexadecimal_binary":
+                     hexadecimal_binary(initial_value)
+                  elif conversion_type == "hexadecimal_decimal":
+                     hexadecimal_decimal(initial_value)
             else:
-               if conversion_type == "binary_decimal":
-                  binary_decimal(initial_value)
-               elif conversion_type == "binary_hexadecimal":
-                  binary_hexadecimal(initial_value)
-               elif conversion_type == "decimal_binary":
-                  decimal_binary(initial_value)
-               elif conversion_type == "decimal_hexadecimal":
-                  decimal_hexadecimal(initial_value)
-               elif conversion_type == "hexadecimal_binary":
-                  hexadecimal_binary(initial_value)
-               elif conversion_type == "hexadecimal_decimal":
-                  hexadecimal_decimal(initial_value)
+               pyscript.write("explanation", "Please input a number to convert!")
 
 
-      </py-script>
+      </py-script><!--      Main Function-->
    </body>
 
 </html>
