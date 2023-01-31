@@ -8,5 +8,6 @@ By clicking the button "Convert" the convertor checks if your input matches what
 If by the small off chance you have given unacceptable input the explanation field will give you some corrective feedback.
 Otherwise you are presented with the converted number that you have requested.
 
+The project can be accessed at: https://radoslavts.github.io/Numeralis/
 
 Created by Lord Radoslav Tsepenishev
